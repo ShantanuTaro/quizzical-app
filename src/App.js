@@ -7,6 +7,7 @@ function App() {
   const [quizData, setQuizData] = React.useState([]);
   const [selectedAnswers, setSelectedAnswers] = React.useState({});
   const [submitted, setSubmitted] = React.useState(false);
+  const [count, setCount] = React.useState(0);
 
   const welcomeElement = ()=> (
     <div className="welcome-screen">
@@ -52,6 +53,13 @@ function App() {
   }
   
   function handleSubmit() {
+    let score = 0;
+    quizData.forEach((question, index) => {
+      if (selectedAnswers[index] === question.correct_answer) {
+        score += 1;
+      }
+    });
+    setCount(score);
     setSubmitted(true);
   }
 
@@ -95,6 +103,7 @@ function App() {
           </div>
         ))}
       </div>
+      {submitted && <p>You scored {count}/{quizData.length} correct answers</p>}
       <div className="submit-container">
         <button className="submit-button" onClick={handleSubmit} disabled={submitted}>Submit Answers</button>
         {submitted && (
